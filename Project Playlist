@@ -1,0 +1,18 @@
+#Bagunoc, Juan Ryu
+#Sarausa, Louise Miguel
+#Pasquil, Wendell Hope
+#Cutamora, Kharl Japhet
+#Figarola, Psalm Kimuelle
+class Menu:
+    def __init__(self):
+        pass
+
+class Playlist:
+    def __init__(self, title):
+        self.title = title
+
+class Track:
+    def __init__(self, title, artist, album, duration):
+        self.artist = title
+        self.album = album
+        self.duration = duration
