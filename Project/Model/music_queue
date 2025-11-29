@@ -1,46 +1,81 @@
-class Playlist:
+import random
 
 class MusicQueue:
     def __init__(self):
-        self.__queue = []
+        self.__tracks = []
+        self.__current = 0
+        self.__repeat = False
+        self.__shuffled = None
 
     def add_track(self, track):
-        self.__queue.append(track)
-        return True
+        self.__tracks.append(track)
 
-    def next_track(self):
-        if len(self.__queue) == 0:
-            return None
-        return self.__queue.pop(0)
+    def add_playlist(self, playlist):
+        for track in playlist.get_tracks():
+            self.add_track(track)
 
-    def peek(self):
-        if len(self.__queue) == 0:
-            return None
-        return self.__queue[0]
+    def play(self):
+        if not self.__tracks:
+            print("Queue is empty")
+            return
+        track = self.__tracks[self.__current]
+        print(f"Playing: {track.title} - {track.artist} ({track.duration})")
 
-    def is_empty(self):
-        return len(self.__queue) == 0
+    def next(self):
+        if not self.__tracks:
+            return
+        if self.__current + 1 < len(self.__tracks):
+            self.__current += 1
+        elif self.__repeat:
+            self.__current = 0
+        else:
+            print("Reached end of queue")
+        self.play()
 
-    def clear(self):
-        self.__queue = []
+    def previous(self):
+        if not self.__tracks:
+            return
+        if self.__current > 0:
+            self.__current -= 1
+        elif self.__repeat:
+            self.__current = len(self.__tracks) - 1
+        self.play()
 
-    def __len__(self):
-        return len(self.__queue)
+    def toggle_repeat(self):
+        self.__repeat = not self.__repeat
+        print("Repeat is", "ON" if self.__repeat else "OFF")
 
-    def get_queue(self):
-        return self.__queue
+    def shuffle(self):
+        if not self.__tracks:
+            return
+        order = list(range(len(self.__tracks)))
+        random.shuffle(order)
+        self.__tracks = [self.__tracks[i] for i in order]
+        self.__current = 0
+        self.__shuffled = order
 
-    def __str__(self):
-        if len(self.__queue) == 0:
-            return "Music Queue is empty."
+    def unshuffle(self):
+        if self.__shuffled:
+            original = sorted(range(len(self.__tracks)), key=lambda x: self.__shuffled[x])
+            self.__tracks = [self.__tracks[i] for i in original]
+            self.__current = 0
+            self.__shuffled = None
 
-        result = "Music Queue:\n"
-        for i, track in enumerate(self.__queue, start=1):
-            # adjust based on your actual Track getters
-            result += f"{i}. {track.title} - {track.artist}\n"
-        return result
+    def total_duration(self):
+        total = sum(track.duration_seconds() for track in self.__tracks)
+        hours = total // 3600
+        minutes = (total % 3600) // 60
+        seconds = total % 60
+        return f"{hours} hr {minutes} min {seconds} sec"
 
-
-playlist = Playlist("My Playlist")
-print(playlist)
-
+    def show(self, page=1, per_page=10):
+        start = (page - 1) * per_page
+        end = start + per_page
+        if not self.__tracks:
+            print("Queue is empty")
+            return
+        print(f"Total Duration: {self.total_duration()}")
+        print(f"Currently Playing: {self.__tracks[self.__current].title} - {self.__tracks[self.__current].artist}")
+        for i, track in enumerate(self.__tracks[start:end], start=1):
+            print(f"{i}. {track.title} - {track.artist} ({track.duration})")
+        print(f"<Page {page}>")
