@@ -1,18 +1,58 @@
-#Bagunoc, Juan Ryu
-#Sarausa, Louise Miguel
-#Pasquil, Wendell Hope
-#Cutamora, Kharl Japhet
-#Figarola, Psalm Kimuelle
-class Menu:
-    def __init__(self):
-        pass
-
 class Playlist:
-    def __init__(self, title):
-        self.title = title
+    def __init__(self, name):
+        self.__name = name
+        self.__tracks = []
+        self.__duration = 0  
+    
 
-class Track:
-    def __init__(self, title, artist, album, duration):
-        self.artist = title
-        self.album = album
-        self.duration = duration
+    def get_name(self):
+        return self.__name
+    
+    def get_tracks(self):
+        return self.__tracks
+    
+    def get_total_duration_seconds(self):
+        return self.__duration
+    
+
+    def set_name(self, new_name):
+        self.__name = new_name
+    
+    def set_tracks(self, new_tracks):
+        self.__tracks = new_tracks
+    
+    def set_duration(self, new_duration):
+        self.__duration = new_duration
+    
+
+    def TotalDurationMMSS(self):
+        minutes = self.__duration // 60
+        seconds = self.__duration % 60
+        return f"Minutes: {minutes}, Seconds: {seconds}"
+
+
+    def AddTrack(self, track):       
+        self.__tracks.append(track)
+        self.__duration += track.get_duration_seconds()
+        return True
+    
+    def __len__(self):
+        return len(self.__tracks)
+    
+    def to_dict(self):
+        return {
+            "Name": self.__name,
+            "No. of Songs": len(self.__tracks), 
+            "Tracks": [track.to_dict() for track in self.__tracks],
+            "Total Duration (seconds)": self.__duration
+        }
+    
+    def __str__(self):
+        return (
+            f"Playlist Name: {self.get_name()}\n"
+            f"Total Tracks: {len(self)}\n"
+            f"Total Duration: {self.TotalDurationMMSS()}"
+        )
+
+playlist = Playlist("My Playlist")
+print(playlist)
