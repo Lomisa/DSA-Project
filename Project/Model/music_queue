@@ -1,1 +1,46 @@
+class Playlist:
+
+class MusicQueue:
+    def __init__(self):
+        self.__queue = []
+
+    def add_track(self, track):
+        self.__queue.append(track)
+        return True
+
+    def next_track(self):
+        if len(self.__queue) == 0:
+            return None
+        return self.__queue.pop(0)
+
+    def peek(self):
+        if len(self.__queue) == 0:
+            return None
+        return self.__queue[0]
+
+    def is_empty(self):
+        return len(self.__queue) == 0
+
+    def clear(self):
+        self.__queue = []
+
+    def __len__(self):
+        return len(self.__queue)
+
+    def get_queue(self):
+        return self.__queue
+
+    def __str__(self):
+        if len(self.__queue) == 0:
+            return "Music Queue is empty."
+
+        result = "Music Queue:\n"
+        for i, track in enumerate(self.__queue, start=1):
+            # adjust based on your actual Track getters
+            result += f"{i}. {track.title} - {track.artist}\n"
+        return result
+
+
+playlist = Playlist("My Playlist")
+print(playlist)
 
