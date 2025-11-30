@@ -3,15 +3,13 @@ class Track:
         self.title = title
         self.artist = artist
         self.album = album
-        self.duration = duration  # mm:ss string
-
+        self.duration = duration 
+        
     def duration_seconds(self):
         mm, ss = self.duration.split(":")
         return int(mm) * 60 + int(ss)
 
     def __lt__(self, other):
-        # Sorting rules:
-        # Title → Artist → Album → Duration
         if self.title != other.title:
             return self.title < other.title
         if self.artist != other.artist:
