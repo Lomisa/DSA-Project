@@ -31,7 +31,7 @@ class Playlist:
         return f"Minutes: {minutes}, Seconds: {seconds}"
 
 
-    def AddTrack(self, track):       
+    def AddTrack(self, Track):       
         self.__tracks.append(track)
         self.__duration += track.get_duration_seconds()
         return True
@@ -46,13 +46,18 @@ class Playlist:
             "Tracks": [track.to_dict() for track in self.__tracks],
             "Total Duration (seconds)": self.__duration
         }
-    
-    def __str__(self):
-        return (
-            f"Playlist Name: {self.get_name()}\n"
-            f"Total Tracks: {len(self)}\n"
-            f"Total Duration: {self.TotalDurationMMSS()}"
-        )
+        def to_dict(self):
+        return {
+            "Name": self.__name,
+            "No. of Songs": len(self.__tracks), 
+            "Tracks": [track.to_dict() for track in self.__tracks],
+            "Total Duration (seconds)": self.__duration
+        }
 
-playlist = Playlist("My Playlist")
-print(playlist)
+        @classmethod
+        def from_dict(cls, data):
+            playlist = cls(data["Name"])
+            playlist.set_duration(data["Total Duration (seconds)"])
+            tracks = [Track.from_dict(track_data) for track_data in data["Tracks"]]
+            playlist.set_tracks(tracks)
+            return playlist
