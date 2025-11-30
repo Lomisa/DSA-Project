@@ -40,24 +40,17 @@ class Playlist:
         return len(self.__tracks)
     
     def to_dict(self):
-        return {
-            "Name": self.__name,
-            "No. of Songs": len(self.__tracks), 
-            "Tracks": [track.to_dict() for track in self.__tracks],
-            "Total Duration (seconds)": self.__duration
-        }
-        def to_dict(self):
-        return {
-            "Name": self.__name,
-            "No. of Songs": len(self.__tracks), 
-            "Tracks": [track.to_dict() for track in self.__tracks],
-            "Total Duration (seconds)": self.__duration
-        }
+    return {
+        "Name": self.__name,
+        "No. of Songs": len(self.__tracks), 
+        "Tracks": [track.to_dict() for track in self.__tracks],
+        "Total Duration (seconds)": self.__duration
+    }
 
-        @classmethod
-        def from_dict(cls, data):
-            playlist = cls(data["Name"])
-            playlist.set_duration(data["Total Duration (seconds)"])
-            tracks = [Track.from_dict(track_data) for track_data in data["Tracks"]]
-            playlist.set_tracks(tracks)
-            return playlist
+    @classmethod
+    def from_dict(cls, data):
+        playlist = cls(data["Name"])
+        playlist.set_duration(data["Total Duration (seconds)"])
+        tracks = [Track.from_dict(track_data) for track_data in data["Tracks"]]
+        playlist.set_tracks(tracks)
+        return playlist
