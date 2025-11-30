@@ -1,7 +1,7 @@
 from models.music_library import MusicLibrary
-from models.playlist import Playlist
+from models.Playlist import Playlist
 from models.music_queue import MusicQueue
-from models.track import Track
+from models.Track import Track
 
 def main():
     lib = MusicLibrary()
