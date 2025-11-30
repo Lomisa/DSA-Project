@@ -5,8 +5,8 @@ from models.Track import Track
 
 def main():
     lib = MusicLibrary()
-    playlists = {}      # <-- store playlists by name
-    queue = MusicQueue()  # <-- optional: you may want to use this later
+    playlists = {}     
+    queue = MusicQueue()  
 
     while True:
         print("\n=== MUSIC SYSTEM ===")
