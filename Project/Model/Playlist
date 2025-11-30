@@ -1,8 +1,10 @@
+from Project.Model.Track import Track
+
 class Playlist:
     def __init__(self, name):
         self.__name = name
         self.__tracks = []
-        self.__duration = 0  
+        self.__duration = 0
     
 
     def get_name(self):
@@ -31,26 +33,30 @@ class Playlist:
         return f"Minutes: {minutes}, Seconds: {seconds}"
 
 
-    def AddTrack(self, Track):       
-        self.__tracks.append(Track)
-        self.__duration += Track.get_duration_seconds()
+    def AddTrack(self, track_obj):
+        self.__tracks.append(track_obj)
+        self.__duration += track_obj.get_duration_seconds()
         return True
     
+
     def __len__(self):
         return len(self.__tracks)
     
+
     def to_dict(self):
-    return {
-        "Name": self.__name,
-        "No. of Songs": len(self.__tracks), 
-        "Tracks": [Track.to_dict() for Track in self.__tracks],
-        "Total Duration (seconds)": self.__duration
-    }
+        return {
+            "Name": self.__name,
+            "No. of Songs": len(self.__tracks),
+            "Tracks": [track.to_dict() for track in self.__tracks],
+            "Total Duration (seconds)": self.__duration
+        }
 
     @classmethod
     def from_dict(cls, data):
         playlist = cls(data["Name"])
         playlist.set_duration(data["Total Duration (seconds)"])
+        
         tracks = [Track.from_dict(track_data) for track_data in data["Tracks"]]
         playlist.set_tracks(tracks)
+        
         return playlist
