@@ -32,8 +32,8 @@ class Playlist:
 
 
     def AddTrack(self, Track):       
-        self.__tracks.append(track)
-        self.__duration += track.get_duration_seconds()
+        self.__tracks.append(Track)
+        self.__duration += Track.get_duration_seconds()
         return True
     
     def __len__(self):
@@ -43,7 +43,7 @@ class Playlist:
     return {
         "Name": self.__name,
         "No. of Songs": len(self.__tracks), 
-        "Tracks": [track.to_dict() for track in self.__tracks],
+        "Tracks": [Track.to_dict() for Track in self.__tracks],
         "Total Duration (seconds)": self.__duration
     }
 
