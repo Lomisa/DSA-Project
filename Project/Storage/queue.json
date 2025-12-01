@@ -1,0 +1,19 @@
+{
+    "tracks": [
+        {
+            "title": "Feel This Moment",
+            "artist": "Pitbull, Christina Aguilera",
+            "album": "Global Warming",
+            "duration": "03:50"
+        },
+        {
+            "title": "Call Me Maybe",
+            "artist": "Carly Rae Jepsen",
+            "album": "Kiss",
+            "duration": "03:13"
+        }
+    ],
+    "current_index": 0,
+    "repeat": true,
+    "shuffled": false
+}
