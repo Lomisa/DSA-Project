@@ -51,6 +51,22 @@ class Playlist:
             "Total Duration (seconds)": self.__duration
         }
 
+    def __str__(self):
+        header = f"Playlist: {self.__name} ({len(self.__tracks)} tracks)"
+        duration = self.TotalDurationMMSS()
+        lines = [header, f"Total: {duration}"]
+        if not self.__tracks:
+            lines.append("(no tracks)")
+        else:
+            for i, t in enumerate(self.__tracks, 1):
+                # use to_dict or serialize if present for robust printing
+                duration_txt = t.duration if hasattr(t, 'duration') else ''
+                artist = t.artist if hasattr(t, 'artist') else ''
+                title = t.title if hasattr(t, 'title') else str(t)
+                lines.append(f"{i}. {title} — {artist} ({duration_txt})")
+
+        return "\n".join(lines)
+
     @classmethod
     def from_dict(cls, data):
         playlist = cls(data["Name"])

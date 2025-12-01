@@ -9,7 +9,6 @@ class Track:
         mm, ss = self.duration.split(":")
         return int(mm) * 60 + int(ss)
 
-    # Backwards-compatible alias expected by other modules
     def get_duration_seconds(self):
         return self.duration_seconds()
 
@@ -30,7 +29,6 @@ class Track:
             "duration": self.duration,
         }
 
-    # Backwards-compatible alias expected elsewhere
     def to_dict(self):
         return self.serialize()
 
