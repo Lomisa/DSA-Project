@@ -1,27 +1,47 @@
 from utils.file_manager import FileManager
 from models.Track import Track
 
+class Library:
+    def __init__(self, track):
+        self.track = track
+        self.left = None
+        self.right = None
+
 class MusicLibrary:
     def __init__(self):
-        self.tracks = []
-        self.storage = FileManager("storage/tracks.json")
-        self.load()
+        self.root = None
 
-    def add_track(self, track):
-        self.tracks.append(track)
-        self.sort_library()
-        self.save()
+    def insert(self, track):
+        if self.root is None:
+            self.root = Library(track)
+        else:
+            self._insert_recursive(self.root, track)
 
-    def sort_library(self):
-        self.tracks.sort()
+    def _insert_recursive(self, node, track):
+        if track < node.track:
+            if node.left is None:
+                node.left = Library(track)
+            else:
+                self._insert_recursive(node.left, track)
+        else:
+            if node.right is None:
+                node.right = Library(track)
+            else:
+                self._insert_recursive(node.right, track)
 
-    def search(self, title):
-        return [t for t in self.tracks if title.lower() in t.title.lower()]
+    def search(self, track):
+        return self._search_recursive(self.root, track)
 
-    def save(self):
-        self.storage.save([t.serialize() for t in self.tracks])
+    def _search_recursive(self, node, track):
+        if node is None:
+            return False
+        if node.track == track:
+            return True
+        elif track < node.track:
+            return self._search_recursive(node.left, track)
+        else:
+            return self._search_recursive(node.right, track)
+        
+    def to_dict(self):
+        return self._to_dict_recursive(self.root)
 
-    def load(self):
-        data = self.storage.load()
-        if data:
-            self.tracks = [Track.from_dict(d) for d in data]
