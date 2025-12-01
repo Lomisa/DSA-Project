@@ -1,4 +1,4 @@
-from Project.Model.Track import Track
+from Model.track import Track
 
 class Playlist:
     def __init__(self, name):

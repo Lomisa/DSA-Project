@@ -1,7 +1,7 @@
-from models.music_lib import MusicLibrary
-from models.Playlist import Playlist
-from models.music_queue import MusicQueue
-from models.Track import Track
+from Model.music_lib import MusicLibrary
+from Model.playlist import Playlist
+from Model.music_queue import MusicQueue
+from Model.track import Track
 
 def main():
     lib = MusicLibrary()
@@ -86,3 +86,5 @@ def main():
 
         else:
             print("Invalid choice. Try again.")
+            
+print(main())

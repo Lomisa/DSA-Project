@@ -1,0 +1,44 @@
+class Track:
+    def __init__(self, title, artist, album, duration):
+        self.title = title
+        self.artist = artist
+        self.album = album
+        self.duration = duration 
+        
+    def duration_seconds(self):
+        mm, ss = self.duration.split(":")
+        return int(mm) * 60 + int(ss)
+
+    # Backwards-compatible alias expected by other modules
+    def get_duration_seconds(self):
+        return self.duration_seconds()
+
+    def __lt__(self, other):
+        if self.title != other.title:
+            return self.title < other.title
+        if self.artist != other.artist:
+            return self.artist < other.artist
+        if self.album != other.album:
+            return self.album < other.album
+        return self.duration_seconds() < other.duration_seconds()
+
+    def serialize(self):
+        return {
+            "title": self.title,
+            "artist": self.artist,
+            "album": self.album,
+            "duration": self.duration,
+        }
+
+    # Backwards-compatible alias expected elsewhere
+    def to_dict(self):
+        return self.serialize()
+
+    @staticmethod
+    def from_dict(d):
+        return Track(
+            d["title"],
+            d["artist"],
+            d["album"],
+            d["duration"]
+        )

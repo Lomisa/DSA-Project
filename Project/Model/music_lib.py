@@ -1,5 +1,5 @@
-from utils.file_manager import FileManager
-from models.Track import Track
+from Utility.file_manager import FileManager
+from Model.track import Track
 
 class Library:
     def __init__(self, track):
