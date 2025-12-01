@@ -1,4 +1,5 @@
 import random
+from Model.track import Track
 
 class MusicQueue:
     def __init__(self):
@@ -100,3 +101,30 @@ class MusicQueue:
             print(f"{i}. {track.title} - {track.artist} ({track.get_duration_seconds()} sec)")
 
         print(f"<Page {page}>")
+
+    def to_dict(self):
+        return {
+            "tracks": [t.to_dict() if hasattr(t, 'to_dict') else (t.serialize() if hasattr(t, 'serialize') else {}) for t in self.__tracks],
+            "current_index": self.__current,
+            "repeat": self.__repeat,
+            "shuffled": self.__shuffled_order is not None
+        }
+
+    def from_dict(self, data):
+        self.__tracks = []
+        for td in data.get('tracks', []):
+            try:
+                t = Track.from_dict(td)
+            except Exception:
+                t = Track(td.get('title', ''), td.get('artist', ''), td.get('album', ''), td.get('duration', '00:00'))
+            self.add_track(t)
+
+        idx = data.get('current_index')
+        if isinstance(idx, int) and 0 <= idx < len(self.__tracks):
+            self.__current = idx
+
+        if data.get('repeat'):
+            self.__repeat = True
+        else:
+            self.__repeat = False
+

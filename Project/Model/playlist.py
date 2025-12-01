@@ -59,7 +59,6 @@ class Playlist:
             lines.append("(no tracks)")
         else:
             for i, t in enumerate(self.__tracks, 1):
-                # use to_dict or serialize if present for robust printing
                 duration_txt = t.duration if hasattr(t, 'duration') else ''
                 artist = t.artist if hasattr(t, 'artist') else ''
                 title = t.title if hasattr(t, 'title') else str(t)
@@ -76,3 +75,10 @@ class Playlist:
         playlist.set_tracks(tracks)
         
         return playlist
+
+    def __str__(self):
+        lines = [f"Playlist: {self.__name}", f"Tracks: {len(self.__tracks)}", f"Total (sec): {self.__duration}"]
+        for i, t in enumerate(self.__tracks, 1):
+            dur = t.duration if hasattr(t, 'duration') else (t.get_duration_seconds() if hasattr(t, 'get_duration_seconds') else '')
+            lines.append(f"{i}. {t.title} - {t.artist} ({dur})")
+        return "\n".join(lines)
