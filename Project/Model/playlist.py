@@ -75,5 +75,3 @@ class Playlist:
         playlist.set_tracks(tracks)
         
         return playlist
-
-    # (no duplicate __str__ below)    
