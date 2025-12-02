@@ -85,6 +85,41 @@ def main():
         fm = FileManager(queue_path)
         fm.save(state['queue'].to_dict())
 
+    # Helper to ask user for a sort option and return a sorted list
+    def sort_tracks_prompt(tracks):
+        if not tracks:
+            return tracks
+
+        print("\nSort options:")
+        print("[0] No sort")
+        print("[1] Title")
+        print("[2] Artist")
+        print("[3] Album")
+        print("[4] Duration (seconds)")
+        choice = input("Sort by (0-4): ").strip()
+
+        key = None
+        if choice == '1':
+            key = lambda t: (t.title or '').lower()
+        elif choice == '2':
+            key = lambda t: (t.artist or '').lower()
+        elif choice == '3':
+            key = lambda t: (t.album or '').lower()
+        elif choice == '4':
+            # use get_duration_seconds if available
+            key = lambda t: (t.get_duration_seconds() if hasattr(t, 'get_duration_seconds') else (t.duration_seconds() if hasattr(t, 'duration_seconds') else 0))
+        else:
+            return tracks
+
+        order = input("Order: [1] Ascending [2] Descending (1/2): ").strip()
+        reverse = (order == '2')
+
+        try:
+            return sorted(tracks, key=key, reverse=reverse)
+        except Exception:
+            print("Could not sort — returning unsorted list.")
+            return tracks
+
 
     load_library()
     state['playlists'].update(load_playlists())
@@ -112,9 +147,11 @@ def main():
                 if not state['lib'].tracks:
                     print("Library is empty.")
                 else:
+                    # Let the user choose a sort option before viewing
+                    tracks_to_show = sort_tracks_prompt(state['lib'].tracks)
                     print("\n=== TRACKS IN LIBRARY ===")
-                    for i, t in enumerate(state['lib'].tracks, 1):
-                        print(f"{i}. {t.title} – {t.artist} ({t.duration})")
+                    for i, t in enumerate(tracks_to_show, 1):
+                        print(f"{i}. {t.title} – {t.artist} – {t.album} ({t.duration})")
 
             elif c == "3":
                 save_library()
@@ -155,8 +192,27 @@ def main():
                     print("No playlists created yet.")
                 else:
                     print("\n=== PLAYLISTS ===")
-                    for p in state['playlists'].values():
-                        print(p)
+                    names = list(state['playlists'].keys())
+                    for i, name in enumerate(names, 1):
+                        pl = state['playlists'][name]
+                        print(f"{i}. {pl.get_name()} ({len(pl.get_tracks())} tracks)")
+
+                    view_idx = input("\nEnter a playlist number to view details (or press Enter to go back): ").strip()
+                    if view_idx:
+                        try:
+                            idx = int(view_idx) - 1
+                            if 0 <= idx < len(names):
+                                pl_name = names[idx]
+                                pl = state['playlists'][pl_name]
+                                tracks = pl.get_tracks()
+                                tracks_to_show = sort_tracks_prompt(tracks)
+                                print(f"\n=== {pl.get_name()} ===")
+                                for j, t in enumerate(tracks_to_show, 1):
+                                    print(f"{j}. {t.title} – {t.artist} – {t.album} ({t.duration})")
+                            else:
+                                print("Invalid playlist number.")
+                        except ValueError:
+                            print("Invalid input. Returning to playlists menu.")
 
             elif c == "3":
                 if not state['lib'].tracks:
@@ -175,7 +231,7 @@ def main():
 
                 print("\nChoose a track to add:")
                 for i, t in enumerate(state['lib'].tracks, 1):
-                    print(f"{i}. {t.title} – {t.artist}")
+                    print(f"{i}. {t.title} – {t.artist} – {t.album}")
                 t_choice = int(input("Track #: ")) - 1
                 track = state['lib'].tracks[t_choice]
                 pl.AddTrack(track)

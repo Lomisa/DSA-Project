@@ -20,7 +20,8 @@ class MusicQueue:
             print("Queue is empty")
             return
         track = self.__tracks[self.__current]
-        print(f"Playing: {track.title} - {track.artist} ({track.get_duration_seconds()} sec)")
+        album = getattr(track, 'album', '')
+        print(f"Playing: {track.title} - {track.artist} - {album} ({track.get_duration_seconds()} sec)")
 
     def next(self):
         if not self.__tracks:
@@ -95,10 +96,13 @@ class MusicQueue:
         end = start + per_page
 
         print(f"Total Duration: {self.total_duration()}")
-        print(f"Currently Playing: {self.__tracks[self.__current].title}")
+        current = self.__tracks[self.__current]
+        current_album = getattr(current, 'album', '')
+        print(f"Currently Playing: {current.title} - {current.artist} - {current_album}")
 
         for i, track in enumerate(self.__tracks[start:end], start=start + 1):
-            print(f"{i}. {track.title} - {track.artist} ({track.get_duration_seconds()} sec)")
+            album = getattr(track, 'album', '')
+            print(f"{i}. {track.title} - {track.artist} - {album} ({track.get_duration_seconds()} sec)")
 
         print(f"<Page {page}>")
 

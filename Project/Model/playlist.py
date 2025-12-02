@@ -50,7 +50,6 @@ class Playlist:
             "Tracks": [track.to_dict() for track in self.__tracks],
             "Total Duration (seconds)": self.__duration
         }
-
     def __str__(self):
         header = f"Playlist: {self.__name} ({len(self.__tracks)} tracks)"
         duration = self.TotalDurationMMSS()
@@ -59,10 +58,11 @@ class Playlist:
             lines.append("(no tracks)")
         else:
             for i, t in enumerate(self.__tracks, 1):
-                duration_txt = t.duration if hasattr(t, 'duration') else ''
-                artist = t.artist if hasattr(t, 'artist') else ''
-                title = t.title if hasattr(t, 'title') else str(t)
-                lines.append(f"{i}. {title} — {artist} ({duration_txt})")
+                dur_txt = t.duration if hasattr(t, 'duration') else (t.get_duration_seconds() if hasattr(t, 'get_duration_seconds') else '')
+                artist = getattr(t, 'artist', '')
+                title = getattr(t, 'title', str(t))
+                album = getattr(t, 'album', '')
+                lines.append(f"{i}. {title} — {artist} — {album} ({dur_txt})")
 
         return "\n".join(lines)
 
@@ -76,9 +76,4 @@ class Playlist:
         
         return playlist
 
-    def __str__(self):
-        lines = [f"\nPlaylist: {self.__name}", f"Tracks: {len(self.__tracks)}", f"Total (sec): {self.__duration}"]
-        for i, t in enumerate(self.__tracks, 1):
-            dur = t.duration if hasattr(t, 'duration') else (t.get_duration_seconds() if hasattr(t, 'get_duration_seconds') else '')
-            lines.append(f"{i}. {t.title} - {t.artist} ({dur})")
-        return "\n".join(lines)
+    # (no duplicate __str__ below)    

@@ -76,5 +76,22 @@
             }
         ],
         "total_duration": 1294
+    },
+    "aki": {
+        "name": "aki",
+        "tracks": [],
+        "total_duration": 0
+    },
+    "sam": {
+        "name": "sam",
+        "tracks": [
+            {
+                "title": "Paprika",
+                "artist": "Foorin",
+                "album": "Paprika",
+                "duration": "3:30"
+            }
+        ],
+        "total_duration": 210
     }
 }
