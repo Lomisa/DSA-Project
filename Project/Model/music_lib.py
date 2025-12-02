@@ -9,13 +9,10 @@ class Library:
 
 class MusicLibrary:
     def __init__(self):
-        # keep a simple list of tracks for APIs that expect `tracks`
         self.tracks = []
-        # also maintain BST root for backwards compatibility
         self.root = None
 
     def insert(self, track):
-        # keep list in insertion order
         self.tracks.append(track)
         if self.root is None:
             self.root = Library(track)
@@ -48,14 +45,11 @@ class MusicLibrary:
             return self._search_recursive(node.right, track)
         
     def to_dict(self):
-        # Represent the library as a list of track dicts
         try:
-            # prefer track objects' to_dict if exists
             return [t.to_dict() if hasattr(t, 'to_dict') else (t.serialize() if hasattr(t, 'serialize') else {}) for t in self.tracks]
         except Exception:
             return []
 
-    # Backwards-compatible API used by interactive code
     def add_track(self, track):
         self.insert(track)
 
