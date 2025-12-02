@@ -77,7 +77,7 @@ class Playlist:
         return playlist
 
     def __str__(self):
-        lines = [f"Playlist: {self.__name}", f"Tracks: {len(self.__tracks)}", f"Total (sec): {self.__duration}"]
+        lines = [f"\nPlaylist: {self.__name}", f"Tracks: {len(self.__tracks)}", f"Total (sec): {self.__duration}"]
         for i, t in enumerate(self.__tracks, 1):
             dur = t.duration if hasattr(t, 'duration') else (t.get_duration_seconds() if hasattr(t, 'get_duration_seconds') else '')
             lines.append(f"{i}. {t.title} - {t.artist} ({dur})")

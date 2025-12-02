@@ -17,7 +17,6 @@
         ],
         "total_duration": 456
     },
-
     "Roadtrip": {
         "name": "Roadtrip",
         "tracks": [
@@ -26,8 +25,20 @@
                 "artist": "Lady Gaga",
                 "album": "The Fame Monster",
                 "duration": "04:55"
+            },
+            {
+                "title": "Gangnam Style",
+                "artist": "PSY",
+                "album": "Psy 6 (Six Rules), Part 1",
+                "duration": "03:39"
+            },
+            {
+                "title": "Counting Stars",
+                "artist": "OneRepublic",
+                "album": "Native",
+                "duration": "04:17"
             }
         ],
-        "total_duration": 295
+        "total_duration": 771
     }
 }
