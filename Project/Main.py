@@ -105,7 +105,6 @@ def main():
         elif choice == '3':
             key = lambda t: (t.album or '').lower()
         elif choice == '4':
-            # use get_duration_seconds if available
             key = lambda t: (t.get_duration_seconds() if hasattr(t, 'get_duration_seconds') else (t.duration_seconds() if hasattr(t, 'duration_seconds') else 0))
         else:
             return tracks
@@ -146,7 +145,6 @@ def main():
                 if not state['lib'].tracks:
                     print("Library is empty.")
                 else:
-                    # Let the user choose a sort option before viewing
                     tracks_to_show = sort_tracks_prompt(state['lib'].tracks)
                     print("\n=== TRACKS IN LIBRARY ===")
                     for i, t in enumerate(tracks_to_show, 1):
