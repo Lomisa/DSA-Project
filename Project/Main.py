@@ -85,7 +85,6 @@ def main():
         fm = FileManager(queue_path)
         fm.save(state['queue'].to_dict())
 
-    # Helper to ask user for a sort option and return a sorted list
     def sort_tracks_prompt(tracks):
         if not tracks:
             return tracks
