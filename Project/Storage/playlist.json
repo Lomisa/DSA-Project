@@ -40,5 +40,41 @@
             }
         ],
         "total_duration": 771
+    },
+    "jpop_music": {
+        "name": "Jpop",
+        "tracks": [
+            {
+                "title": "Heavy Rotation",
+                "artist": "AKB48",
+                "album": "Koko ni Ita Koto",
+                "duration": "04:45"
+            },
+            {
+                "title": "Lemon",
+                "artist": "Kenshi Yonezu",
+                "album": "Bootleg",
+                "duration": "04:16"
+            },
+            {
+                "title": "Pretender",
+                "artist": "Official HIGE DANDism",
+                "album": "Traveler",
+                "duration": "05:27"
+            },
+            {
+                "title": "Blue Bird",
+                "artist": "Ikimono Gakari",
+                "album": "My Song Your Song",
+                "duration": "03:36"
+            },
+            {
+                "title": "Paprika",
+                "artist": "Foorin",
+                "album": "Paprika",
+                "duration": "03:30"
+            }
+        ],
+        "total_duration": 1294
     }
 }
